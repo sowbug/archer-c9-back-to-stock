@@ -1,4 +1,13 @@
-Beware!! I have only an Archer C9 v3, not a v1, so I haven't tested the v1 image included in this repository.
+Beware!! I have only an Archer C9 v3, not a v1 or v2, so I haven't tested the v1/v2 images included in this repository.
+
+# I just want to get my C9 back to stock, I don't care how you made these images
+
+1. Figure out which version of c9 you have.
+2. Go to the DD-WRT admin tab.
+3. Flash the correct webflash image (c9v1-webflash.bin for v1, etc.).
+4. Done
+
+# How to make the images yourself
 
 # First, go get the stock firmware from the [TP-Link site](https://static.tp-link.com/2018/201803/20180316/Archer%20C9(US)_V3_171215.zip).
 # Then unzip it and cd into the resulting directory.
@@ -87,6 +96,51 @@ $ shasum archer_c9v1_us-up-ver3-17-1-P1\[20180125-rel56387\].bin c9v1-loader.bin
 8044020e597ff5680c04fceceda66ac20181431c  c9v1-loader.bin
 fb9f591bef55bc7a88ca93b8ef339db6a54fdd3c  c9v1-squashfs.bin
 22e2d7d3a1b45da0348820f03a47f99a63aae08f  c9v1-webflash.bin
+
+===
+
+## v2
+
+# source https://static.tp-link.com/res/down/soft/Archer_C9_V2_160315.zip
+$ binwalk c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+155672        0x26018         LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 299260 bytes
+234269        0x3931D         TRX firmware header, little endian, image size: 1916928 bytes, CRC32: 0xFD45640D, flags: 0x0, version: 1, header size: 28 bytes, loader offset: 0x1C, linux kernel offset: 0x0, rootfs offset: 0x0
+234297        0x39339         LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 4570816 bytes
+2151198       0x20D31E        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 12505569 bytes, 2511 inodes, blocksize: 131072 bytes, created: 2016-03-15 01:17:48
+14660496      0xDFB390        XML document, version: "1.0"
+14668042      0xDFD10A        XML document, version: "1.0"
+14669474      0xDFD6A2        Unix path: /var/run/appflow/tccpipe</listen_path>
+14673514      0xDFE66A        Unix path: /usr/share/miniupnpd/firewall.include</path>
+14677564      0xDFF63C        Unix path: /cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thu
+14682556      0xE009BC        Unix path: /usr/local/bin/jiggle_firewall</exec>
+14683402      0xE00D0A        Unix path: /usr/local/bin/apply_appflow</exec>
+
+$ dd if=c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin of=c9v2-loader.bin skip=234297 iflag=skip_bytes bs=1916901 count=1
+1+0 records in
+1+0 records out
+1916901 bytes (1.9 MB, 1.8 MiB) copied, 0.0051192 s, 374 MB/s
+$ dd if=c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin of=c9v2-squashfs.bin skip=2151198 iflag=skip_bytes bs=12509298 count=1
+1+0 records in
+1+0 records out
+12509298 bytes (13 MB, 12 MiB) copied, 0.0189874 s, 659 MB/s
+$ ../lede-project-source/tools/firmware-utils/src/a.out -f c9v2-loader.bin -f c9v2-squashfs.bin > c9v2-webflash.bin 
+mjn3's trx replacement - v0.81.1
+$ binwalk c9v2-webflash.bin 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             TRX firmware header, little endian, image size: 14430208 bytes, CRC32: 0xBAF67D77, flags: 0x0, version: 1, header size: 28 bytes, loader offset: 0x1C, linux kernel offset: 0x1D4004, rootfs offset: 0x0
+28            0x1C            LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 4570816 bytes
+1916932       0x1D4004        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 12505569 bytes, 2511 inodes, blocksize: 131072 bytes, created: 2016-03-15 01:17:48
+
+$ shasum c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin c9v2-loader.bin c9v2-squashfs.bin c9v2-webflash.bin 
+b588c06fb1035bff22340d7475cf0ef7a1132b8a  c9v2_un-up-ver4-0-0-P24[20160315-rel34536].bin
+c880be5648a71579880b0a633b7c6a50488333e4  c9v2-loader.bin
+40dec777ae504f46d85ff78bdaf863011d9fad37  c9v2-squashfs.bin
+a168a3808d52a920d734cc2d8e73f54a6f8e998e  c9v2-webflash.bin
 
 ===
 
