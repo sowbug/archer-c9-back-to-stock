@@ -17,6 +17,7 @@ Do the same thing I did below for whichever version of the router you have. Then
 v1
 ---
 
+```
 $ binwalk archer_c9v1_us-up-ver3-17-1-P1\[20180125-rel56387\].bin
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
@@ -49,11 +50,14 @@ $ shasum archer_c9v1_us-up-ver3-17-1-P1\[20180125-rel56387\].bin c9v1-loader.bin
 8044020e597ff5680c04fceceda66ac20181431c  c9v1-loader.bin
 fb9f591bef55bc7a88ca93b8ef339db6a54fdd3c  c9v1-squashfs.bin
 22e2d7d3a1b45da0348820f03a47f99a63aae08f  c9v1-webflash.bin
+```
 
 v2
 ---
 
-# source https://static.tp-link.com/res/down/soft/Archer_C9_V2_160315.zip
+source https://static.tp-link.com/res/down/soft/Archer_C9_V2_160315.zip
+
+```
 $ binwalk c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
@@ -93,12 +97,14 @@ b588c06fb1035bff22340d7475cf0ef7a1132b8a  c9v2_un-up-ver4-0-0-P24[20160315-rel34
 c880be5648a71579880b0a633b7c6a50488333e4  c9v2-loader.bin
 40dec777ae504f46d85ff78bdaf863011d9fad37  c9v2-squashfs.bin
 a168a3808d52a920d734cc2d8e73f54a6f8e998e  c9v2-webflash.bin
+```
 
 v3
 ---
 
 Go get the stock firmware from the [TP-Link site](https://static.tp-link.com/2018/201803/20180316/Archer%20C9(US)_V3_171215.zip). Then unzip it and cd into the resulting directory.
 
+```
 $ ls -l
 total 14956
 -rw-r--r-- 1 sowbug sowbug 14820016 Dec 15  2017  c9v4_eu-us-ca_up_1-3-1-20171215rel35219.bin
@@ -143,6 +149,7 @@ ce5b20da5dc60a10935ad3f743f8d12bc9664aa2  c9-loader.bin
 da1a28a6ab4b233dda104e7f7bcb00d55bee65e0  c9-squashfs.bin
 71b876578be3d42446778633602689b4f1ed5afd  c9v4_eu-us-ca_up_1-3-1-20171215rel35219.bin
 d362c4288a4b870d305d41180488f0bc88091192  c9v3-webflash.bin
+```
 
 v4 and v5
 ---
