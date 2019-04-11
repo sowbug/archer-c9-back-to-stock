@@ -1,12 +1,18 @@
-Beware!! I have only an Archer C9 v3, not a v1 or v2, so I haven't tested the v1/v2 images included in this repository.
+BEWARE!
+=======
+
+These images will get you back to stock, but according to https://github.com/sowbug/archer-c9-back-to-stock/issues/4 you won't be able to upgrade to anything else after that, including via tftp. Don't use these images unless you're OK being on this single stock version forever!
+
+Disclaimer: I have only an Archer C9 v3, not a v1 or v2, so I haven't tested the v1/v2 images included in this repository.
 
 I just want to get my C9 back to stock. I don't care how you made these images
 ==============================================================================
 
 1. Figure out which version of c9 you have.
 2. Go to the DD-WRT admin tab.
-3. Flash the correct webflash image (c9v1-webflash.bin for v1, etc.).
-4. Done
+3. *Read the warning* above about how you'll be permanently on this one stock version forever.
+4. Flash the correct webflash image (c9v1-webflash.bin for v1, etc.).
+5. Done
 
 How to make the images yourself
 ===============================
@@ -58,7 +64,7 @@ v2
 source https://static.tp-link.com/res/down/soft/Archer_C9_V2_160315.zip
 
 ```
-$ binwalk c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin 
+$ binwalk c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
@@ -82,9 +88,9 @@ $ dd if=c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin of=c9v2-squashfs.bin sk
 1+0 records in
 1+0 records out
 12509298 bytes (13 MB, 12 MiB) copied, 0.0189874 s, 659 MB/s
-$ ../lede-project-source/tools/firmware-utils/src/a.out -f c9v2-loader.bin -f c9v2-squashfs.bin > c9v2-webflash.bin 
+$ ../lede-project-source/tools/firmware-utils/src/a.out -f c9v2-loader.bin -f c9v2-squashfs.bin > c9v2-webflash.bin
 mjn3's trx replacement - v0.81.1
-$ binwalk c9v2-webflash.bin 
+$ binwalk c9v2-webflash.bin
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
@@ -92,7 +98,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 28            0x1C            LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 4570816 bytes
 1916932       0x1D4004        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 12505569 bytes, 2511 inodes, blocksize: 131072 bytes, created: 2016-03-15 01:17:48
 
-$ shasum c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin c9v2-loader.bin c9v2-squashfs.bin c9v2-webflash.bin 
+$ shasum c9v2_un-up-ver4-0-0-P24\[20160315-rel34536\].bin c9v2-loader.bin c9v2-squashfs.bin c9v2-webflash.bin
 b588c06fb1035bff22340d7475cf0ef7a1132b8a  c9v2_un-up-ver4-0-0-P24[20160315-rel34536].bin
 c880be5648a71579880b0a633b7c6a50488333e4  c9v2-loader.bin
 40dec777ae504f46d85ff78bdaf863011d9fad37  c9v2-squashfs.bin
