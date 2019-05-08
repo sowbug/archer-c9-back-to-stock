@@ -1,7 +1,13 @@
 BEWARE!
 =======
 
-These images will get you back to stock, but according to https://github.com/sowbug/archer-c9-back-to-stock/issues/4 you won't be able to upgrade to anything else after that, including via tftp. Don't use these images unless you're OK being on this single stock version forever!
+These images will get you back to stock, but according to
+https://github.com/sowbug/archer-c9-back-to-stock/issues/4 you won't
+be able to upgrade to anything else after that, including via
+tftp. Don't use these images unless you're OK being on this single
+stock version forever! (Note that you *can* reinstall dd-wrt or other
+non-stock firmware, but for some reason these images are too picky
+about stock images.)
 
 Disclaimer: I have only an Archer C9 v3, not a v1 or v2, so I haven't tested the v1/v2 images included in this repository.
 
@@ -103,6 +109,42 @@ b588c06fb1035bff22340d7475cf0ef7a1132b8a  c9v2_un-up-ver4-0-0-P24[20160315-rel34
 c880be5648a71579880b0a633b7c6a50488333e4  c9v2-loader.bin
 40dec777ae504f46d85ff78bdaf863011d9fad37  c9v2-squashfs.bin
 a168a3808d52a920d734cc2d8e73f54a6f8e998e  c9v2-webflash.bin
+```
+
+Source for 170511 version: https://static.tp-link.com/Archer%20C9(UN)_V2_170511.zip
+
+```
+$ binwalk Archer\ C9\(UN\)_V2_170511.bin
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+155672        0x26018         LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 299316 bytes
+234301        0x3933D         TRX firmware header, little endian, image size: 1916928 bytes, CRC32: 0x5AC9D15A, flags: 0x0, version: 1, header size: 28 bytes, loader offset: 0x1C, linux kernel offset: 0x0, rootfs offset: 0x0
+234329        0x39359         LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 4570816 bytes
+2151230       0x20D33E        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 13073427 bytes, 2671 inodes, blocksize: 131072 bytes, created: 2017-05-11 02:17:25
+15225776      0xE853B0        XML document, version: "1.0"
+15233457      0xE871B1        XML document, version: "1.0"
+15234889      0xE87749        Unix path: /var/run/appflow/tccpipe</listen_path>
+15238929      0xE88711        Unix path: /usr/share/miniupnpd/firewall.include</path>
+15242979      0xE896E3        Unix path: /cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thu
+15247985      0xE8AA71        Unix path: /usr/local/bin/jiggle_firewall</exec>
+15248831      0xE8ADBF        Unix path: /usr/local/bin/apply_appflow</exec>
+
+$ dd if=Archer\ C9\(UN\)_V2_170511.bin of=c9-loader.bin skip=234329 iflag=skip_bytes bs=1916901 count=1
+1+0 records in
+1+0 records out
+1916901 bytes (1.9 MB, 1.8 MiB) copied, 0.00412536 s, 465 MB/s
+$ dd if=Archer\ C9\(UN\)_V2_170511.bin of=c9-squashfs.bin skip=2151230 iflag=skip_bytes bs=13074546 count=1
+1+0 records in
+1+0 records out
+13074546 bytes (13 MB, 12 MiB) copied, 0.0151488 s, 863 MB/s
+$ ~/src/lede-project/tools/firmware-utils/src/a.out -f c9-loader.bin -f c9-squashfs.bin > c9v3-170511-webflash.bin
+mjn3's trx replacement - v0.81.1
+miket@siren-grit:~/src/archer-c9-back-to-stock$ shasum *.bin
+669838435b4552c3ee60cf8a6758ff04b3236ae8  Archer C9(UN)_V2_170511.bin
+3649170d575bf6663830c66f50ffcf4a58a11668  c9-loader.bin
+f27a9d633c4a112ab5ea15ff24cbff010b9033f4  c9-squashfs.bin
+7c3528754c2ba68bef8b0600321f6136cf9356ff  c9v3-170511-webflash.bin
 ```
 
 v3
