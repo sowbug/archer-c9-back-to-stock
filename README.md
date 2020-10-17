@@ -199,6 +199,42 @@ da1a28a6ab4b233dda104e7f7bcb00d55bee65e0  c9-squashfs.bin
 d362c4288a4b870d305d41180488f0bc88091192  c9v3-webflash.bin
 ```
 
+v3 japan
+---
+Download the original firmware from [here](https://static.tp-link.com/2019/201904/20190416/Archer%20C9(JP)_V5_190403.zip)
+
+```
+root@2c9f6d555060:/mnt# binwalk ./c9v3_jp_cloud-up-1.2.0_Build_20170111_rel.69305_2017-01-12_10.46.13.bin
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+155672        0x26018         LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 327460 bytes
+241099        0x3ADCB         TRX firmware header, little endian, image size: 1916928 bytes, CRC32: 0x17CE53DF, flags: 0x0, version: 1, header size: 28 bytes, loader offset: 0x1C, linux kernel offset: 0x0, rootfs offset: 0x0
+241127        0x3ADE7         LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 4570816 bytes
+2158028       0x20EDCC        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 12378910 bytes, 2634 inodes, blocksize: 262144 bytes, created: 2017-01-11 11:15:03
+14540491      0xDDDECB        XML document, version: "1.0"
+14548206      0xDDFCEE        XML document, version: "1.0"
+14549637      0xDE0285        Unix path: /var/run/appflow/tccpipe</listen_path>
+14553677      0xDE124D        Unix path: /usr/share/miniupnpd/firewall.include</path>
+14553831      0xDE12E7        Unix path: /etc/firewall.d/qca-nss-connmgr</path>
+14556954      0xDE1F1A        Unix path: /lib/uci/upload/</uploads>
+14557582      0xDE218E        Unix path: /var/run/minidlna</db_dir>
+14562752      0xDE35C0        Unix path: /usr/local/bin/jiggle_firewall</exec>
+14563598      0xDE390E        Unix path: /usr/local/bin/apply_appflow</exec>
+
+root@2c9f6d555060:/mnt# dd if=./c9v3_jp_cloud-up-1.2.0_Build_20170111_rel.69305_2017-01-12_10.46.13.bin of=c9-loader.bin skip=241127 iflag=skip_bytes bs=$(echo 2158028-241127|bc) count=1
+1+0 records in
+1+0 records out
+1916901 bytes (1.9 MB, 1.8 MiB) copied, 0.0262399 s, 73.1 MB/s
+
+root@2c9f6d555060:/mnt# dd if=./c9v3_jp_cloud-up-1.2.0_Build_20170111_rel.69305_2017-01-12_10.46.13.bin of=c9-squashfs.bin skip=2158028 iflag=skip_bytes bs=$(echo 14540491-2158028|bc) count=1
+1+0 records in
+1+0 records out
+12382463 bytes (12 MB, 12 MiB) copied, 0.195586 s, 63.3 MB/s
+
+root@2c9f6d555060:/mnt# ./source/tools/firmware-utils/src/a.out -f c9-loader.bin -f c9-squashfs.bin > c9v3-webflash-jp.bin
+mjn3's trx replacement - v0.81.1
+```
+
 v4 and v5
 ---
 
